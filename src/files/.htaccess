@@ -1,0 +1,5 @@
+AddType txt/html .php
+AddType txt/html .php3
+AddType txt/html .cgi
+AddType txt/html .pl
+AddType txt/html .py

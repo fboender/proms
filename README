@@ -1,0 +1,390 @@
+PROMS
+
+	Version     : %%VERSION
+	Copyright   : Copyright 2003-2005 by Ferry Boender <%%EMAIL>.
+
+	Authors     : Ferry Boender <%%EMAIL> 
+	              Michiel van Baak <michiel (at) vanbaak (dot) info>
+	License     : General Public License
+	homepage    : %%HOMEPAGE
+
+
+	PROMS is a webbased project management system whose primary goal is to
+	provide a facility for developers to communicate amongst other 
+	developers, communicating things to end-users as well as getting feed-
+	back from users (in the form of bugs, etc) and as a placeholder for
+	project information.
+
+
+Table of contents
+
+	1. About PROMS
+		1.2. Current features
+	2. Installation / Upgrade
+		2.1. Requirements
+		2.2. Installation / Upgrade
+			2.2.1. Automated installation / Upgrade
+			2.2.2. Manual installation / Upgrade
+		2.3. Configuring
+		2.4. Setting up the noreply PROMS e-mail address
+	3. Feedback / Contributing.
+		3.1. Feedback (bugs/questions/feature requests)
+		3.2. Contributing
+			3.2.1. Writing patches/contributions.
+		3.3. Credits
+	4. Roadmap
+	5. Legal stuff
+	6. Authors
+
+1. About PROMS
+
+	PROMS, which stands for Project Management System, is a webbased 
+	application which focuses on the management of projects. It's main focus
+	is to provide a facility for developers to communicate with other 
+	developers and for them to exchange information with end-users.
+
+	A good way of describing PROMS would be 'a combination of Freshmeat and
+	SourceForge'.  It provides features for communicating and maintaining
+	projects, releases, bugs, forums, files and todo's.
+	
+	At the moment, PROMS is mostly oriented towards small projects with 
+	just a handfull of developers. Therefor things like e-mail notification
+	are not really tweaked towards many developers on a single project. 
+
+
+1.2. Current features.
+
+	PROMS currently includes these features:
+	
+	* Projects
+	* Project parts
+	* Bugs / Bugtracker)
+	* Todos
+	* Files
+	* Releases (including subscriber notifications)
+	* General discussions
+	* Bug discussions
+	* Todo discussions
+	* User management (including per-user restrictions/rights)
+	* User manual (semi-context sensitive)
+	* E-mail notifications of changes for most of the above features
+	
+	For a full list of all features accompanied by descriptions, please refer
+	to the website. 
+	
+	PROMS is currently under development, and it is not recommended for daily
+	usage. (Though it has never deleted any of my personal project stuff)
+	
+2. Installation
+
+2.1. Requirements
+
+	Serverside requirements:
+		* PHP 4.x (might work under 3.x)
+		* MySQL 3.x or greater.
+
+	Clientside requirements:
+		* Javascript enabled browser (only basic javascript like window.open 
+		  and navigation.back)
+		* CSS2 (will work without, but looks horrible)
+
+	Developed and tested using:
+		* Mozilla Firebird 0.6 - 1.0 / Internet Explorer 5/6
+		* Apache 1.3.26
+		* PHP 4.1.2
+		* MySQL 3.23.49
+		
+2.2. Installation / Upgrade
+
+	2.2.1. Automated installation / Upgrade
+	
+	Since version 0.9, PROMS contains an automated installer. This installer
+	will guide you through the setup step by step. It will create a database
+	for you and set up and install the sourcecode for you if you provide it
+	with some basic information. It can also upgrade your version of PROMS from
+	any version to the current version. 
+
+	You can start the installer by executing the   setup.sh   script. If you
+	follow the instructions on the screen you should be just fine. 
+
+	The setup script can be run in two ways:
+
+	[root@localhost] ~# chmod 755 setup.sh; ./setup.sh
+
+	or
+
+	[root@localhost] ~# sh ./setup.sh
+
+
+	Please remember that the setup script is a beta (just like the rest of
+	PROMS at this time). It might screw up your database. The setup script
+	creates a backup of your database before upgrading, or at least it tries.
+	If anything goes wrong, you should be able to put the old database back
+	using this backup.
+	
+	NOTICES: 
+		Please make sure you have have Magic Quotes enabled in your
+		installation of PHP. If you do not have this enabled, your installation
+		of PROMS will be VULNERABLE to SQL INJECTIONS!
+
+		If you are running a different web server than Apache, please use your
+		web server's configuration to prevent people from running scripts in 
+		the files/ directory! If you do not, people might be able to upload PHP
+		or PERL files and execute from within PROMS, which opens up major
+		security holes.
+
+	2.2.2. Manual installation / Upgrade
+
+	If, for some reason, the automated installer does not work for you, you can
+	install PROMS manually. (Please report any problems with the automated 
+	installer!). 
+
+	To install a completely new version, follow these steps:
+
+	1. Create a new MySQL database.
+	2. Import the file sql/proms.sql into the database:
+	   [todsah@sharky]~$ mysql -u todsah -p [databasename] < sql/proms.sql
+	3. Create a new user for the database:
+	   mysql> GRANT ALL PRIVILEGES ON [databasename].* TO proms@localhost 
+       IDENTIFIED BY '[password]';
+	4. Change the defines in the src/settings.php file to match with the 
+	   database and user names. Also change the other settings to your liking.
+	   Remove the REF00# from each of the defines.
+	5. Copy all .php files in the src/ directory to your webserver directory.
+	6. Point your browser to the proms.php page.
+	7. Register a new account for yourself. The first account registered will
+	   be the administrator account whom can do anything he damn well pleases.
+	   
+
+	To upgrade a current version:
+
+	1. Run the scripts in the sql/ directory. You should check your current
+	   version of PROMS and run each script with a version number equal to, or
+	   higher than, your current version. Running the scripts can be done 
+	   with the following command:
+
+	   mysql -uUSERNAME -pPASSWORD -hHOSTNAME DATABASENAME < sql/0.8.sql
+
+	   Of course you must replace USERNAME et al with the username of a mysql-
+	   account which is allowed to create/mod tables and such.
+	2. Change the defines in the src/settings.php file to match with the
+	   database and usernames. Also check all other settings and set them to
+	   their appropriate values (shouldn't be too difficult).
+	3. Copy src/* to the destination path.
+	
+
+	NOTICES: 
+		Please make sure you have have Magic Quotes enabled in your
+		installation of PHP. If you do not have this enabled, your installation
+		of PROMS will be VULNERABLE to SQL INJECTIONS!
+
+		If you are running a different web server than Apache, please use your
+		web server's configuration to prevent people from running scripts in 
+		the files/ directory! If you do not, people might be able to upload PHP
+		or PERL files and execute from within PROMS, which opens up major
+		security holes.
+	
+2.3. Configuring
+
+	At the moment, PROMS does not have a global configuration module which can
+	be accessed from the application itself. If you wish to change any of the
+	global settings, you'll have to change them manually in the 'settings.php'
+	file. 
+
+	Some future version of PROMS will include a global configuration module. Or
+	not.
+
+	Certain information lacks an interface. For instance, bug priorities and
+	licenses. Hopefully, I'll get around to implementing these sometime in the
+	future, but don't count on it. 
+
+2.4. Setting up the noreply PROMS e-mail address
+
+	PROMS sends out e-mails about new releases, bugs, todo's and forum replies
+	to users so they know what's going on with the project. In order to protect
+	the users' email addresses, the recipients are specified in the BCC field.
+	PROMS requires an email address that it can put in the To: field, which
+	will also be used as a return email address. This email address does not
+	necessarily have to end up anywhere, mail sent to the email address can be
+	saifly deleted.
+
+	By default PROMS suggest the 'noreply@yourhostname.tld' email address. If
+	you are running Exim, you can add the following entry to your /etc/aliases
+	to tell Exim it can throw emails to that address away:
+
+	noreply: :blackhole:
+
+	For other SMTP daemons, please check their documentation.
+
+3. Feedback / Contributing.
+
+	If you wish to contribute to PROMS, please read this section. It contains
+	rules and guidelines for contribution. Since this is a very small project,
+	I'm very picky about who and what I allow to be contributed. 
+
+3.1. Feedback (bugs/questions/feature requests)
+
+	If you've got feedback about PROMS, and wish to share it, you can do so
+	in a couple of ways.
+
+	1. Send email to <%%EMAIL>
+	2. Use a 'beta' version of PROMS to give me your feedback. You can find it
+	   at http://projects.electricmonk.nl/index.php?action=ProjectOverview&project_id=2
+	
+	I'd prefer it if you'd use 2.
+
+	When giving feedback, please keep these following rules in mind:
+
+	* Be on topic. This means that you should read sections 1 and 4 of this 
+	  README file so you know what this project is all about. I don't want to
+	  recieve feature-requests asking if I can implement an intergrated e-mail
+	  client, if you know what I mean.
+	* Be specific. If you've found a bug or have a feature request, please
+	  provide the URL where you've found the bug or want the feature. Try to be
+	  short but clear.
+	* If you're going to report a bug, please follow the standard bug-reporting
+	  guidelines. You can find a good guide to reporting bugs here:
+	  http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
+
+3.2. Contributing
+
+	If you wish to contribute to this project, you'll have to come up with a
+	pretty damn good contribution. This is quite a small project, and we'd have
+	a better chance of completing it by just working on it by the two of us
+	than with 120 developers. What kind of contributions are we interested in? 
+
+	* Bug-fixing patches.
+	* Bug-fixing patches.
+	* I'd like some bug-fixing patches.
+	* Feature enhancements. (Please note the 'enhancement' part.. it means I'd
+	  like enhancements to currently available features).
+	
+	Completely new features might get accepted, but don't count on it. The best
+	way to go here is to first tell me about your idea. I will then let you know
+	if it's any good for inclusion in PROMS. If not, don't be sad.. I'm just a
+	bit too focussed on project-goals and believe in the Keep It Simple Stupid
+	principle.
+
+	If you contribute a completely new module, I might include it in the PROMS
+	distribution or provide an additional download on the website for the 
+	module. That way, people can still use the module but we don't have to 
+	provide support for it. Integration with current PROMS code will be 
+	difficult though. 
+
+	3.2.1. Writing patches/contributions.
+
+	There are, at the moment, no official coding guidelines. Just look at the
+	other sources to get an impression about code-style, layout, used functions,
+	etc. Also take a long good hard indepth look at inc_common.php, for it 
+	contains functions which you should use.
+
+	Some rules you should follow are:
+	* Create patches using: diff -ruN [latest-release] [your-changes]
+	  Run it in the directory which CONTAINS the proms/ directory.
+	* If you can, use the following editor settings:
+	  - Vim: 
+		:set tabstop=4
+		:set softtabstop=4
+		:set shiftwidth=4
+		:set noexpandtab
+		:set guioptions-=T
+	  - Other editors:
+		Tabs should be tabs, not just a couple of spaces.
+		Only use tabs at the start of a line. Use spaces eveywhere else 
+		(aligning).
+
+3.3. Credits
+
+	My thanks goes out to the following people, who have helped in the
+	development of PROMS in some way or another:
+
+	Michiel van Baak: Todo implementation. Various patches.
+	Marco Lopes: Bug-fixing patches and testing.
+	Justin Palmer: Basis for the bbcode function.
+
+
+4. Roadmap
+
+	So, where's this project going?
+
+	NOTE: This is here mostly for historical reasons. 
+
+	[x] Release 0.7 will focus on: 
+		More feature completions,
+		Bug tracking capabilities which will allow users to see the history of bugs,
+		Todo tracking capabilities which will aloow users to see the history of todo items***.
+		
+		***) This item has been scratched from the roadmap. It is useless.
+
+	[x] Release 0.8 will focus on:
+		Documentation,
+		Additional features,
+		Security fixes,
+		Bug fixes,
+		Code cleanups,
+		User interface fixes,
+
+	[x] Release 0.9 will focus on,
+		Additional features,
+		Security fixes,
+		Bug fixes,
+		Code cleanups.
+
+	[x] Release 0.10 will focus on,
+		Bug fixes,
+		Security fixes,
+
+	[x] Release 0.11 will focus on,
+		Additional features,
+		Bug fixes
+		
+	Release 1.0 will rule.
+
+
+	There will be two Release Candidates for version 1.0
+	
+
+	These are, of course, just guidelines. Efforts may at any time stray from
+	above path.
+	
+	
+5. Legal stuff
+
+	PROMS is Copyright by Ferry Boender, licensed under 
+	the General Public License (GPL)
+
+	Copyright (C), 2002-2005 by Ferry Boender
+
+	This program is free software; you can redistribute it and/or modify it
+	under the terms of the GNU General Public License as published by the Free
+	Software Foundation; either version 2 of the License, or (at your option)
+	any later version.
+
+	This program is distributed in the hope that it will be useful, but
+	WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+	or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+	for more details.
+
+	You should have received a copy of the GNU General Public License along
+	with this program; if not, write to the Free Software Foundation, Inc.,
+	675 Mass Ave, Cambridge, MA 02139, USA.
+
+	For more information, see the COPYING file supplied with this program.
+
+6. Authors
+
+	PROMS created by:
+
+		Ferry Boender <%%EMAIL>
+		Homepage: %%MYHOMEPAGE 
+
+	(for address information, please email me or visit my webpage.)
+
+
+
+
+
+
+
+
+Wow, you actually read all the way to the end? Neat.

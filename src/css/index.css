@@ -1,0 +1,316 @@
+/*
+ * Default page elements 
+ */
+body { 
+	margin: 0px 0px 0px 0px;
+	font-family: verdana; 
+	font-size: 12px; 
+	background-color: #FFFFFF;
+}
+
+td { 
+	font-family: verdana; 
+	padding: 1px 3px;
+	font-size: 12px; 
+}
+
+th {
+	font-family: verdana; 
+	font-size: 11px;
+	text-align: right;
+}
+
+p { 
+	margin-left: 10px; 
+	text-align: justify;
+}
+
+a {
+	text-decoration: none;
+	color: #0030A0;
+}
+
+/* 
+ * Project Progress bar
+ */
+div.progressborder {
+	width:300;
+	background-color: #C0C0C0;
+	border-color: #909090;
+	border-width: 1px; 
+	border-style: inset;
+}
+
+div.progressbar {
+	padding: 1px;
+	background: #0090FF;
+	border-width: 1px;
+	border-style: outset;
+
+}
+
+/* 
+ * Debug and error reporting styles
+ */
+
+div.qry_error {
+	background: #D0D0D0;
+	border: 1px solid #FF0000;
+}
+
+div.qry_error_title {
+	border-bottom: 1px solid #000000;
+	background: #FFFFFF;
+	font-weight: bold;
+	font-size: large;
+	color: #FF0000;
+}
+
+/* 
+ * Form styles 
+ */
+input {
+	background: #E0E0E0;
+	border-width: 1px;
+	font-size: 12px;
+}
+
+input.action {
+	font-size: 12px;
+	background: #d0d0d0;
+	border-color: #000000;
+	border-width: 1px;
+	border-style: solid;
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: #002080;
+}
+
+textarea {
+	background: #E0E0E0;
+	border-width: 1px;
+}
+
+select {
+	background: #E0E0E0;
+	border-width: 1px;
+	font-size: 12px;
+}
+
+option {
+	font-size: 12px;
+}
+
+/* 
+ * List (proms, not li) styles
+ */
+th.head {
+	background: #003090;
+	color: #FFFFFF;
+	font-size: 11px;
+	text-align: left;
+	border: thin outset #003090;
+	border-width: 1px;
+	padding: 1px 3px;;
+}
+
+
+/* 
+ * Navigational styles
+ */
+div.actionseparator {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+}
+
+a.title_action {
+	background: #d0d0d0;
+	border-color: #909090;
+	border-width: 2px;
+	border-style: outset;
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: #002080;
+}
+
+a.action {
+	background: #d0d0d0;
+	border-color: #000000;
+	border-width: 1px;
+	border-style: solid;
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: #002080;
+	white-space: nowrap;
+}
+
+div.action {
+	display: inline;
+	background: #d0d0d0;
+	border-color: #000000;
+	border-width: 1px;
+	border-style: solid;
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: #002080;
+	white-space: nowrap;
+}
+
+a.nav {
+	background: #003090;
+	border-color: #000000;
+	border-width: 1px;
+	border-style: solid;
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: #D0D0FF;
+	white-space: nowrap;
+}
+
+a.head {
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+a.project_fullname {
+	font-family: verdana, arial black;
+	font-size: 18px;
+	font-weight: bold;
+	color: #003050;
+}
+
+/*
+ * Interface styles
+ */
+div.title { 
+	background: #003090;
+	border-bottom: 1px solid #000000;
+	padding: 2px;
+}
+
+font.title {
+	font-family: arial black;
+	font-size: 16px; 
+	font-weight: bold;
+	color: #FFFFFF;
+	margin-left: 5px;
+}
+
+div.title_account {
+	display: block;
+	background: #d0d0d0;
+	padding: 4px;
+	border-color: #d0d0d0;
+	border-width: 2px;
+	border-style: inset;
+}
+
+div.nav_bar {
+	background-color: #CCCCCC;
+	border-bottom: 1px solid #606060;
+	text-align: right;
+}
+
+div.head {
+	font-color: #FFFFFF;
+}
+
+div.separator {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #b0b0b0;
+}
+
+/* 
+ * Tab elements 
+ */
+div.tab {
+	margin-top: 20px;
+	width: 95%;
+	border-bottom: 1px solid #000000;
+	text-align: left;
+	margin-bottom: 5px;
+}
+
+div.tab_contents {
+	width: 95%;
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+span.tab_active {
+	font-weight: bold;
+	color: #FFFFFF;
+	margin-left: 15px;
+	padding: 0px 10px 0px 10px;
+	background-color: #003090;
+}
+
+span.tab_active a {
+	color: #FFFFFF;
+}
+
+span.tab_inactive {
+	font-weight: bold;
+	margin-left: 15px;
+	padding: 0px 10px 0px 10px;
+	background-color: #CCCCCC;
+}
+
+/* 
+ * Documentation styles
+ */
+div.doc_nav {
+	position: fixed;
+	top: 0px;
+	background-color: #003090;
+	border-bottom: 1px solid #000000;
+	width: 100%;
+}
+
+a.doc_nav_lnk {
+	margin-left: 5px;
+	color: #FFFFFF;
+}
+
+div.doc_body {
+	margin: 30px 10px 50px 10px;
+}
+
+div.doc_nav_bottom {
+	position: fixed;
+	background-color: #003090;
+	border-bottom: 1px solid #000000;
+	width: 100%;
+	bottom: 0px;
+}
+
+div.doc_body p { 
+	margin-left: 10px; 
+	text-align: justify;
+}
+
+/* 
+ * BBCode styles
+ */
+span.quote {
+	margin-left: 20px;
+	border-left: 3px solid #F0F0F0;
+	display:block;
+	padding: 5px;
+	font-style: oblique;
+}

@@ -1,0 +1,256 @@
+Proms: ChangeLog
+------------------------------------------------------------------------------
+
+[%%VERSION] <%%EMAIL> ( %%DATE )
+
+  Bug^H^H^Hfeature fixes
+
+  * Various SQL queries where vulnerable to SQL injections. Fixed. (See also
+    README)
+  * Various modules (Project Parts, Project Members, Todo, Discussions, ..) 
+    had incorrect error checking. Fixed.
+  * It wasn't possible to view discussions if not logged in. Fixed.
+  * Certain combinations of filters in the Bug list didn't work. Fixed.
+  * Certain combinations of filters in the Todo list didn't work. Fixed.
+  * Some typo fixes.
+  * In certain cases it wasn't possible to update bugreport details. Fixed.
+  * Wrong bug number was mentioned in email notifications of new bugreports. 
+    Fixed.
+  * A few places didn't filter out HTML entities correctly. Fixed.
+  * In some posts in the discussion forums no username would be shown for 
+    anonymous users. Fixed.
+  * When viewing a bug or todo discussion, navigating back would take you to 
+    the discussion list instead of the bug or todo. Fixed.
+  * Todo's used to use their database key as an id, resulting in todo nr's that
+    didn't start at 1 for each project. Fixed.
+  * Certain combinations of rights caused users to be granted more rights then
+    they should have been. Fixed.
+  * Various list filters were to wide for 1024x768. Fixed.
+  * 'New Project' wizard didn't work. Fixed.
+  * Various improvements in the security checks. Many checks depended on 
+    being the project owner where they should have depended on the individual
+	access right. Fixed.
+  * Bug and todo notification email URLs always pointed to http://, but this 
+    could also be https://. Fixed.
+  * It was possible for non-authorized users to view and modify the list of 
+    project members. Fixed.
+  * 'New project' wizard was broken. Fixed.
+  * Todos could be modified by non-authorized users. Fixed.
+
+  New features / Improvements.
+
+  * Replying to a message in a discussion now shows the parent post.
+  * Better email notifications of new posts in a discussion.
+  * Project parts now can have their own maintainer.
+  * Major interface changes. Tabs are now used for the various parts of a 
+    project. 
+  * New generic file management interface. 
+  * Coupling between file management and Project releases.
+  * Discussions: 'Create new thread' and 'Post reply' buttons are now not shown
+    anymore when not logged in.
+  * Active discussions are now shown in the top of the topics list.
+  * Releases are now shown by status.
+  * Newest releases are now shown at the top of the release list.
+  * Release overview now shows the project and release more clearly.
+  * Various improvements in the handling of usernames in the discussions.
+  * BBCode now supported in discussions.
+  * Bugs can now be filtered on version.
+  * Query error information no longer shown to end-users.
+  * Documentation updated.
+  * Messages issues by setup.sh are now parsed through fmt if available.
+  * Notification emails are now sent using an SMTP class. This fixes the 
+    delays in using the mail() function native to PHP.
+  * Forum posts are now also sent to the project owner and members instead of 
+    only to people who have subscribed to the thread.
+  * Forum topics are now shown in a more intuitive manner.
+  * Bug tracker threads in the forum now include navigation back to the bug.
+  * Todo tracker threads in the forum now include navigation back to the todo.
+  * 'Manage' tab added which shows an overview of all possible management tasks
+    that can be performed on a project (i.e. add/remove members, etc)
+  * Releases are now shown categorized by release status.
+  * CSS information now kept in a separate CSS file.
+  * Bug and Todo notifications are now only sent to project maintainers.
+    (Unless there is no maintainer, then it is sent to the project's owner)
+
+[0.10] <%%EMAIL> ( Sun Feb 22 16:11:19 CET 2004 )
+  * Fixed bug in the Todo List where 'Done' checkboxes were incorrectly 
+    disabled.
+  * Fixed a bug in the bugs discussion forum where the wrong bug thread would 
+    be loaded.
+  * Added a 'Jump to' dropdown in the title bar for quicker navigation.
+  * Todo statuses are now kept in the database.
+  * A function for universal list navigation buttons has been added 
+    (ListNavigation() ).
+  * Register_globals=off compatibility added.
+  * Rewrote list sorting.
+  * After a wrong login followed by a correct login you are now also returned 
+    to the page you came from.
+  * Removed times from report dates in lists in order to save space.
+  * It is now possible to mark a todo as done directly from the TodoOverview 
+    page.
+  * Non-recoverable query error dialog added to all queries.
+  * Replaced all _SESSION["user_id"] references to $user_id, except in 
+    inc_common.php.
+  * Fixed a typo and a forgotten declaration of the current version in 
+    setup.php
+  * Fixed bug where Forum Notifier would sent out a notification message 
+    without recipients.
+  * Seperate button for Bug tracker in Bug overview screen.
+  * Bug tracker no longer interferes with the 'This bug is being discussed' 
+    message.
+  * Fixed a bug where the bugtracker saved in the wrong project when more 
+    than one bug with the same bug number existed globaly in Proms.
+  * New Forum Topic descriptions wheren't saved properly. Fixed.
+  * After signing up for a new account and loging in, you are now returned to 
+    the page where you came from.
+  * Announcement emails contained the wrong From: address. Fixed.
+  * The Proms URL used in Announcement and other mailings is now automatically 
+    formed.
+  * Added error checking and messages to the database connection function.
+  * The user who reported a todo was listed in the todo list. Could also be 
+    filtered on. This was useless, so it has been removed.
+
+[0.9] <%%EMAIL> ( Tue Jan 20 13:12:09 CET 2004 )
+  * Global settings are now placed in 'settings.php'.
+  * Version is now shown in the title of the pages.
+  * Authorized users may now set the status of bugs during reporting.
+  * Bugs may now be reported by anonymous users (if settings allow it).
+  * A bug where project members with 'bug modify' rights could not modify bugs
+    was fixed.
+  * When saving a bug, the project id is now checked to see if it exists.
+  * Project members and owners will now be notified of new bugs.
+  * Project members and owners will now be notified of new todos.
+  * Fixed a bug in the Release unsubscribe module.
+  * An option has been added to forum replies to be notified of new posts in 
+    the current thread.
+  * Old error code has been cleaned up.
+  * Bugs which have been reported anonymously are now shown as such.
+  * A message telling the user if the current bug is being discussed is now 
+    shown in the bug overview.
+  * The Bug list can now be sorted ascending or descending.
+  * The Todo list can now be sorted ascending and descending.
+  * Global settings are now stored in settings.php instead of all over the 
+    place.
+  * A setup script was created.
+  * Various security improvements.
+  * All usernames are now links to the account overview screen.
+  * Temporary fix for register_globals=off compatibility.
+  * Bug list and Todo list now show sort arrows.
+  
+[0.8] <%%EMAIL> ( Thu Sep 11 20:50:32 CEST 2003 )
+  * Some user interface improvements.
+  * Module titles moved from proms.php to inc_common and put into assoc array.
+  * The first non-hidden form field is now automatically focussed.
+  * form functions now have an extra parameter which allows you to set the 
+    size of the input.
+  * Documentation system and documentation itself added.
+  * Project Add/Mod : Now handled by ProjectMod.php.
+  * Project Add/Mod : Code cleanup.
+  * Bug tracker: Bug tracking messages are now shown in green in the forums.
+  * Bug report: The ability for unauthorized users to change the status has 
+    been removed.
+  * Bug list: Search and sort states are now remembered during sessions.
+  * Todo list: Search and sort states are now remembered during sessions.
+  * Todo list: mysql error when searching for todo number fixed.
+
+[0.7] <%%EMAIL> ( Thu Aug 28 20:11:06 CEST 2003 )
+  * Project overview: Corrected CHANGELOG url.
+  * Account add/mod: Passwords now must be entered twice to avoid errors.
+  * Project Releases: codenames are now omitted if not present.
+  * Project Releases: Can now be hidden from public view by setting the date in the future.
+  * Project Release Add/Mod: Date can now be set manually.
+  * InputDate function added.
+  * Todo List: Todo's can now be marked 'done' from the todo list.
+  * Todo Add: A checkbox which, when checked, will let you add another to do right away after saving was added.
+  * Some global configuration options can now be set in the inc_common.php file.
+  * Project progress: rounded of to one tenths.
+  * Project progress is now only calculated from todo's if progress is not set manually.
+  * Bug Discuss: Various bugs fixed in the creation of new bug topics & threads.
+  * Bug Tracking: Changes in bugs are now reported in the bug's forum thread.
+  * Security: Action links are now only shown if the user is authorized to perform the actions.
+
+[v0.6.1] <%%EMAIL> ( Sat Jun  7 02:20:38 CEST 2003 )
+  * Release overview/Project Overview: Unavailable packages are now listed as N/A, among others.
+  * htmlentities added to most displays of text.
+  * All known bugs are now fixed. Come report some more.
+  * Project list: Latest version now clickable.
+  * Project members: Delete now works. 
+  * Project members: Add and modify use the same php file. 
+  * Project Add: Only non-members are shown in the dropdown list.
+  * Project Mod: It is no longer possible to choose another user in the dropdown list.
+  * Forum view: Descriptions can now be viewed for topics.
+  * Forum Add/mod: Descriptions can now be edited for topics.
+  * Bug list: Next and prev now take sorting in account.
+  * Todo list: Next and prev now take sorting in account.
+  * ReleaseAdd file removed. (new releases are handled by Release Mod)
+  * BugReport file removed. (New bugs are handled by Bug Add)
+  * Debug() function now shows debug messages with htmlentities and addslashes.
+  * BugAdd functionality taken over by BugMod.
+  * Bug Add/Mod version now is a dropdown.
+  * Releases Modify now works correctly.
+
+[0.6] <%%EMAIL> ( Sun Aug 10 16:00:17 CEST 2003 )
+  * Fixed bugs in Bug Discussions, New account creation, Forum Topic create.
+  * Fixed multiple navigation links.
+  * Bug report form html is now better layed out.
+  * Project Parts editor and Forum Topics editor now remember Project Add wizard status.
+  * Added Topic deletion to Forum Topic editor.
+  * Bugs can now be searched on subjects, descriptions, reproductions and software. 
+  * Bugs can now be searched on an AND basis.
+  * Announcements are now sent out on new releases.
+  * Added auth to various files.
+  * Added various 'No [item] avaiable yet' messages.
+  * Rewrote part of BugList for better readability and smaller code. Fixes some bugs too.
+  * New debugging sceme which uses javascript to output debugging msgs in seperate window. See Debug() function in inc_common.php.
+  * Fixed serious security bug due to non-usage of $_SESSION[].
+  * Added latest 5 releases to Project Overview page.
+  * README update.
+  * New IsLoggedIn() function which correctly checks if user is logged in. Do not use !isset($user_id).
+  * All authoriziation functions (IsProjectOwner, etc) now return true if user is admin.
+  * Project list changes: Details now shows links to project page, homepage, author on one line. Latest release is now shown.
+  * Project overview: Double link to Releases removed.
+  * Project members module added.
+  * IsProjectMember() function added which checks if user is a member of the project. Admin & owner always allowed.
+  * IsAuthorized() function added which checks given authorization specification with project members auth. Admin & owner always allowed.
+  * Layout changes in project overview latest releases.
+  * System wide email obfuscation added. EmailObfuscate();
+  * It is now possible to mark an account as private so others can only see fullname.
+  * Account overview now shows the projects owned by the user.
+
+[0.5] <%%EMAIL> ( Sun Jul 13 16:09:58 CEST 2003 )
+  * BugAdd: Added back navigation.
+  * Added instructions to New Project Wizard.
+  * ForumTopicsList: Fixed naming convention error in rslt_topics.
+  * Updated README. Added general layout, FIXME's, authors, copyrights, various legal issues and misc information.
+  * Create Account List, which shows a list of accounts (for use by admin).
+  * Accounts can now be edited by admin.
+  * Creating an account now checks for usernames already in use.
+  * Created Project releases feature.
+  * Correctly close html in all pages (function FooterHtml and FooterPage in inc_common).
+  * Added IsAdmin function (inc_common) which returns true if the user logged in is an admin.
+  * Changed Error() routine to include module name.
+  * Partly rewrote AccountMod to better suit the rest of new Account actions.
+
+[0.4] <%%EMAIL> ( Mon Jun  9 19:48:02 CEST 2003 )
+  * Added bug discussion feature.
+  * Added post date and last post date features to discussion forum.
+  * Improved navigation.
+  * 'Project Add' wizard which takes you through all the steps needed to create new project.
+  * Added Forum Topic editor.
+
+[0.3] <%%EMAIL> ( Thu May 29 23:35:36 CEST 2003 )
+  * Added project parts editor.
+  * Major navigation enhancements throughout the program.
+  * Beautifications.
+  * Started Forum part.
+
+[0.2] <%%EMAIL> ( Wed May 28 00:05:30 CEST 2003 )
+  * Added search/filter capabilities to buglist.
+  * Added 'add' and 'last' modified timestamps to bugs.
+  * New authentication method.
+  * Code cleanup (according to conceptual design).
+  * Massive changes to the bug reporting section (too much to mention seperately).
+
+[0.1] <%%EMAIL> ( Fri May 16 20:06:41 CEST 2003 )
+  * Initial release.
+
