@@ -84,6 +84,7 @@ function actions_menu() {
 					3 "Change database and webserver settings for setup" \
 					0 "Done (start installation)" 2>$TMP_FILE
 				if [ "$?" == "1" ]; then
+					rm $TMP_FILE
 					exit
 				else
 					ACTION=`cat $TMP_FILE`
@@ -193,8 +194,12 @@ function setup_db_change_menu() {
 				"Webserver Username" "$S_SETUP_WEB_USERNAME"\
 				"Webserver Groupname" "$S_SETUP_WEB_GROUPNAME"\
 				2>$TMP_FILE
+
 			if [ "$?" == "1" ]; then
-				mysql -u"$S_SETUP_DB_USERNAME" -p"$S_SETUP_DB_PASSWORD" -h "$S_SETUP_DB_HOSTNAME" -e"exit"
+				ACTION=""
+
+				mysql -u"$S_SETUP_DB_USERNAME" --password="$S_SETUP_DB_PASSWORD" -h "$S_SETUP_DB_HOSTNAME" -e"exit"
+
 				if [ "$?" == "1" ]; then
 					input_yesno "Database test" "Testing the database connection...\n\nDatabase connection FAILED\n\nDo you want to change the information?" "DONE";
 				else
@@ -334,12 +339,12 @@ function settings_get_defaults() {
 	S_PREV_VERSION=""
 	S_PREV_PATH=""
 
-	S_SETUP_PATH="`grep -ih "documentroot" /etc/apache/* 2>/dev/null | tail -n 1| sed -e "s/^[         ]*DocumentRoot[         ]*//" -e "s/ $//" | sed -e "s/\/$//"`/proms"
+	S_SETUP_PATH="`grep -ih "documentroot" /etc/apache/* 2>/dev/null | grep -v "^[	 ]*#" | tail -n 1 | sed -e "s/^[	 ]*DocumentRoot[	 ]*//" -e "s/ $//" | sed -e "s/\/$//"`/proms"
 	S_SETUP_DB_HOSTNAME="localhost"
 	S_SETUP_DB_USERNAME="root"
 	S_SETUP_DB_PASSWORD=""
-	S_SETUP_WEB_USERNAME="`grep -ih -e "user[	 ]" /etc/apache/* 2>/dev/null | sed -e "s/ $//" | sed -e "s/\/$//"`"
-	S_SETUP_WEB_GROUPNAME="`grep -ih -e "group[	 ]" /etc/apache/* 2>/dev/null | sed -e "s/ $//" | sed -e "s/\/$//"`"
+	S_SETUP_WEB_USERNAME="`grep -ih -e "user[	 ]" /etc/apache/* 2>/dev/null | grep -v "^[	 ]*#" | tail -n 1 | sed -e "s/^[	 ]*User[	 ]*//" | sed -e "s/ $//" | sed -e "s/\/$//"`"
+	S_SETUP_WEB_GROUPNAME="`grep -ih -e "group[	 ]" /etc/apache/* 2>/dev/null | grep -v "^[	 ]*#" | tail -n 1 | sed -e "s/^[	 ]*Group[	 ]*//" | sed -e "s/ $//" | sed -e "s/\/$//"`"
 
 	S_PROMS_DB_HOSTNAME="localhost"
 	S_PROMS_DB_USERNAME="proms"
@@ -348,6 +353,10 @@ function settings_get_defaults() {
 	S_PROMS_SMTP_HOSTNAME="localhost"
 	S_PROMS_SMTP_PORT="25"
 	S_PROMS_LIST_EMAIL="proms@`dnsdomainname`"
+
+	if [ "$S_PROMS_LIST_EMAIL" == "proms@" ]; then
+		S_PROMS_LIST_EMAIL="proms@`dnsdomainname -f`"
+	fi
 }
 
 #----------------------------------------------------------------------------
@@ -442,20 +451,20 @@ if [ ! -z $S_PREV_VERSION ]; then
 	
 	# Create backups before doing anything
 	echo "Backing up previous database into backup.sql";
-	mysqldump -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME -p$S_SETUP_DB_PASSWORD $S_PROMS_DB_NAME > backup.sql
+	mysqldump -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME --password="$S_SETUP_DB_PASSWORD" $S_PROMS_DB_NAME > backup.sql
 
 	# Upgrade database
 	echo "Upgrading database";
 
 	for DB_UPDATE in `grep -x -A1000 "$S_PREV_VERSION" ./sql/db_upgrade_path`; do
-		mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME -p$S_SETUP_DB_PASSWORD $S_PROMS_DB_NAME < sql/$DB_UPDATE.sql
+		mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME --password="$S_SETUP_DB_PASSWORD" $S_PROMS_DB_NAME < sql/$DB_UPDATE.sql
 	done
 else
 	# Deploy new database
 	echo "Deploying database";
-	mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME -p$S_SETUP_DB_PASSWORD -e"CREATE DATABASE $S_PROMS_DB_NAME"
-	mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME -p$S_SETUP_DB_PASSWORD -e"GRANT ALL PRIVILEGES ON $S_PROMS_DB_NAME.* TO $S_PROMS_DB_USERNAME IDENTIFIED BY '$S_PROMS_DB_PASSWORD' WITH GRANT OPTION"
-	mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME -p$S_SETUP_DB_PASSWORD $S_PROMS_DB_NAME < sql/proms.sql
+	mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME --password="$S_SETUP_DB_PASSWORD" -e"CREATE DATABASE $S_PROMS_DB_NAME"
+	mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME --password="$S_SETUP_DB_PASSWORD" -e"GRANT ALL PRIVILEGES ON $S_PROMS_DB_NAME.* TO $S_PROMS_DB_USERNAME IDENTIFIED BY '$S_PROMS_DB_PASSWORD' WITH GRANT OPTION"
+	mysql -u$S_SETUP_DB_USERNAME -h$S_SETUP_DB_HOSTNAME --password="$S_SETUP_DB_PASSWORD" $S_PROMS_DB_NAME < sql/proms.sql
 fi
 
 #----------------------------------------------------------------------------
