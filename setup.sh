@@ -15,7 +15,12 @@ function input_line() {
 		LINE=`dialog --no-cancel --title "${1}" --stdout --inputbox "${2}" 0 0 "${4}"`;
 	else
 		clear
-		echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
+		echo -e "${1}\n---------------------------------------------------------------------------\n"
+		if [ "$HAS_FMT" == "1" ]; then
+			echo -e "${2}\n" | fmt
+		else
+			echo -e "${2}\n"
+		fi
 		read -p"[${4}]" LINE
 		if [ -z $LINE ]; then
 			LINE=${4}
@@ -31,7 +36,12 @@ function input_password() {
 		read
 	else
 		clear
-		echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
+		echo -e "${1}\n---------------------------------------------------------------------------\n"
+		if [ "$HAS_FMT" == "1" ]; then
+			echo -e "${2}\n" | fmt
+		else
+			echo -e "${2}\n"
+		fi
 		read -s -p"[${4}]" LINE
 		if [ -z $LINE ]; then
 			LINE=${4}
@@ -47,7 +57,12 @@ function input_yesno() {
 		eval $3='$?';
 	else
 		clear
-		echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
+		echo -e "${1}\n---------------------------------------------------------------------------\n"
+		if [ "$HAS_FMT" == "1" ]; then
+			echo -e "${2}\n" | fmt
+		else
+			echo -e "${2}\n"
+		fi
 		read -n1 -p"[Y/N]" YESNO
 		echo -e "\n"
 		if [ "$YESNO" == "n" -o "$YESNO" == "N" ]; then
@@ -63,7 +78,12 @@ function output_text() {
 		dialog --title "${1}" --msgbox "$2" 0 0;
 	else 
 		clear
-		echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
+		echo -e "${1}\n---------------------------------------------------------------------------\n"
+		if [ "$HAS_FMT" == "1" ]; then
+			echo -e "${2}\n" | fmt
+		else
+			echo -e "${2}\n"
+		fi
 		read -p"-- press enter to continue --"
 	fi
 }
@@ -99,6 +119,7 @@ function actions_menu() {
 				echo "3 - Change database and webserver settings for setup"
 				echo
 				echo "0 - Done (start installation)"
+				echo "C - Cancel (stop installation)"
 				echo
 				read -p"Choice: " ACTION
 			fi
@@ -107,6 +128,8 @@ function actions_menu() {
 				1) settings_get_upgrade ;;
 				2) settings_change_menu ;;
 				3) setup_db_change_menu ;;
+				C) rm $TMP_FILE; exit ;;
+				c) rm $TMP_FILE; exit ;;
 				0) ACTION=""; DONE=1 ;;
 			esac
 
@@ -438,9 +461,15 @@ function setup_change_web_groupname() {
 # Script initialisation
 #----------------------------------------------------------------------------
 if [ -x /usr/bin/dialog ]; then
-	HAS_DIALOG=0
+	HAS_DIALOG=1
 else
 	HAS_DIALOG=0
+fi
+
+if [ -x /usr/bin/fmt ]; then
+	HAS_FMT=1
+else
+	HAS_FMT=0
 fi
 
 if [ `id -u` != 0 ]; then 
