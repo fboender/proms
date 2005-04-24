@@ -2,8 +2,9 @@
 #
 # PROMS setup/installation tool
 #
-# Copyright (C), 2003 Ferry Boender. Released under the General Public License
-# For more information, see the COPYING file supplied with this program.
+# Copyright (C), 2003-2005 Ferry Boender. Released under the General Public
+# License For more information, see the COPYING file supplied with this
+# program.
 #
 
 #----------------------------------------------------------------------------
@@ -92,20 +93,21 @@ function actions_menu() {
 
 			else
 				clear
-				echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
-				echo "1. Read settings from previous installation"
-				echo "2. View / Change settings"
-				echo "3. Change database connection for setup"
-				echo "0. Done (Start installation)"
+				echo -e "PROMS Setup\n---------------------------------------------------------------------------\n${2}\n"
+				echo "1 - Read settings from previous installation"
+				echo "2 - View / Change settings"
+				echo "3 - Change database and webserver settings for setup"
 				echo
-				read -p"-- Choice: "
+				echo "0 - Done (start installation)"
+				echo
+				read -p"Choice: " ACTION
 			fi
 
 			case "$ACTION" in
 				1) settings_get_upgrade ;;
 				2) settings_change_menu ;;
 				3) setup_db_change_menu ;;
-				0) DONE=1 ;;
+				0) ACTION=""; DONE=1 ;;
 			esac
 
 		done
@@ -136,7 +138,6 @@ function settings_change_menu() {
 				"SMTP hostname" "$S_PROMS_SMTP_HOSTNAME" \
 				"SMTP port" "$S_PROMS_SMTP_PORT" \
 				2>$TMP_FILE
-
 			if [ "$?" == "1" ]; then
 				DONE=1
 				ACTION=""
@@ -146,30 +147,42 @@ function settings_change_menu() {
 			
 		else
 			clear
-			echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
-			echo "1 Installation location"
+			echo -e "Change settings\n---------------------------------------------------------------------------\n${2}\n"
+			echo "1 - Install location : $S_SETUP_PATH"
+			echo "2 - DB hostname      : $S_PROMS_DB_HOSTNAME"
+			echo "3 - DB username      : $S_PROMS_DB_USERNAME"
+			echo "4 - DB password      : $S_PROMS_DB_PASSWORD"
+			echo "5 - DB name          : $S_PROMS_DB_NAME"
+			echo "6 - E-mail address   : $S_PROMS_LIST_EMAIL"
+			echo "7 - SMTP hostname    : $S_PROMS_SMTP_HOSTNAME"
+			echo "8 - SMTP port        : $S_PROMS_SMTP_PORT"
 			echo
-			echo "2 Database hostname"
-			echo "3 Database username"
-			echo "4 Database password"
-			echo "5 Database name"
-			echo 
-			echo "6 PROMS E-mail address"
-			echo "7 SMTP server hostname"
-			echo "8 SMTP server port"
+			echo "0 - Done"
 			echo
-			read -p"-- Choice: " ACTION
+			read -p"Choice: " ACTION
+			
+			case "$ACTION" in
+				1) ACTION="Install location";;
+				2) ACTION="DB hostname"     ;;
+				3) ACTION="DB username"     ;;
+				4) ACTION="DB password"     ;;
+				5) ACTION="DB name"         ;;
+				6) ACTION="E-mail address"  ;;
+				7) ACTION="SMTP hostname"   ;;
+				8) ACTION="SMTP port"       ;;
+				0) ACTION=""; DONE=1 ;;
+			esac
 		fi
 
 		case "$ACTION" in
-			"Install location") settings_change_installpath ;;
-			"DB hostname") settings_change_db_hostname ;;
-			"DB username") settings_change_db_username ;;
-			"DB password") settings_change_db_password ;;
-			"DB name") settings_change_db_name ;;
-			"E-mail address") settings_change_email ;;
-			"SMTP hostname") settings_change_smtp_hostname ;;
-			"SMTP port") settings_change_smtp_port ;;
+			"Install location" ) settings_change_installpath ;;
+			"DB hostname"      ) settings_change_db_hostname ;;
+			"DB username"      ) settings_change_db_username ;;
+			"DB password"      ) settings_change_db_password ;;
+			"DB name"          ) settings_change_db_name ;;
+			"E-mail address"   ) settings_change_email ;;
+			"SMTP hostname"    ) settings_change_smtp_hostname ;;
+			"SMTP port"        ) settings_change_smtp_port ;;
 			*) ;; 
 		esac
 	done
@@ -186,54 +199,50 @@ function setup_db_change_menu() {
 	DONE=0
 
 	while [ "$DONE" == "0" ]; do
-		if [ "$HAS_DIALOG" == "1" ]; then
-			dialog --cancel-label Done --ok-label Change --title "Change DB access" --menu "Please choose a setting to change" 22 60 16 \
-				"DB Admin hostname" "$S_SETUP_DB_HOSTNAME" \
-				"DB Admin username" "$S_SETUP_DB_USERNAME" \
-				"DB Admin password" "$S_SETUP_DB_PASSWORD"\
-				"Webserver Username" "$S_SETUP_WEB_USERNAME"\
-				"Webserver Groupname" "$S_SETUP_WEB_GROUPNAME"\
-				2>$TMP_FILE
+		while [ "$DONE" == "0" ]; do
+			if [ "$HAS_DIALOG" == "1" ]; then
+				dialog --cancel-label Done --ok-label Change --title "Change DB & Web Access" --menu "Please choose a setting to change" 22 60 16 \
+					"DB Admin hostname" "$S_SETUP_DB_HOSTNAME" \
+					"DB Admin username" "$S_SETUP_DB_USERNAME" \
+					"DB Admin password" "$S_SETUP_DB_PASSWORD"\
+					"Webserver Username" "$S_SETUP_WEB_USERNAME"\
+					"Webserver Groupname" "$S_SETUP_WEB_GROUPNAME"\
+					2>$TMP_FILE
 
-			if [ "$?" == "1" ]; then
-				ACTION=""
-
-				mysql -u"$S_SETUP_DB_USERNAME" --password="$S_SETUP_DB_PASSWORD" -h "$S_SETUP_DB_HOSTNAME" -e"exit"
-
-				if [ "$?" == "1" ]; then
-					input_yesno "Database test" "Testing the database connection...\n\nDatabase connection FAILED\n\nDo you want to change the information?" "DONE";
-				else
-					output_text "Database test" "Testing the database connection...\n\nDatabase connection succesful."
-					DONE=1
-				fi
-			else
 				ACTION=`cat $TMP_FILE`
+			else
+				clear
+				echo -e "Change DB & Web Access\n---------------------------------------------------------------------------\n${2}\n"
+				echo "1 - DB Admin hostname   : $S_SETUP_DB_HOSTNAME"
+				echo "2 - DB Admin username   : $S_SETUP_DB_USERNAME"
+				echo "3 - DB Admin password   : $S_SETUP_DB_PASSWORD"
+				echo "4 - Webserver Username  : $S_SETUP_WEB_USERNAME"
+				echo "5 - Webserver Groupname : $S_SETUP_WEB_GROUPNAME"
+				echo
+				echo "0 - Done"
+				echo
+				read -p"Choice: " ACTION
+				case "$ACTION" in
+					1) ACTION="DB Admin hostname"   ;;
+					2) ACTION="DB Admin username"   ;;
+					3) ACTION="DB Admin password"   ;;
+					4) ACTION="Webserver Username"  ;;
+					5) ACTION="Webserver Groupname" ;;
+					0) ACTION=""; DONE=1 ;;
+				esac
 			fi
-		else
-			clear
-			echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
-			echo "1 Installation location"
-			echo
-			echo "2 Database hostname"
-			echo "3 Database username"
-			echo "4 Database password"
-			echo "5 Database name"
-			echo 
-			echo "6 PROMS E-mail address"
-			echo "7 SMTP server hostname"
-			echo "8 SMTP server port"
-			echo
-			read -p"-- Choice: " ACTION
-		fi
 
-		case "$ACTION" in
-			"DB Admin hostname") setup_db_change_db_hostname ;;
-			"DB Admin username") setup_db_change_db_username ;;
-			"DB Admin password") setup_db_change_db_password ;;
-			"Webserver Username") setup_db_change_web_username;;
-			"Webserver Groupname") setup_db_change_web_groupname;;
-			*) ;; 
-		esac
+			case "$ACTION" in
+				"DB Admin hostname"   ) setup_change_db_hostname ;;
+				"DB Admin username"   ) setup_change_db_username ;;
+				"DB Admin password"   ) setup_change_db_password ;;
+				"Webserver Username"  ) setup_change_web_username;;
+				"Webserver Groupname" ) setup_change_web_groupname;;
+				*) ;; 
+			esac
+		done
+
+		settings_check_mysql # Modifies $DONE
 	done
 
 	DONE=$DONE_TMP
@@ -244,6 +253,17 @@ function setup_db_change_menu() {
 #----------------------------------------------------------------------------
 # Special function related to settings
 #----------------------------------------------------------------------------
+function settings_check_mysql() {
+	mysql -u"$S_SETUP_DB_USERNAME" --password="$S_SETUP_DB_PASSWORD" -h "$S_SETUP_DB_HOSTNAME" -e"exit"
+
+	if [ "$?" == "1" ]; then
+		input_yesno "Database test" "Testing the database connection...\n\nDatabase connection FAILED\n\nDo you want to change the information?" "DONE";
+	else
+		output_text "Database test" "Testing the database connection...\n\nDatabase connection succesful."
+		DONE=1
+	fi
+}
+
 function settings_check() {
 	ERRORS=""
 	
@@ -394,23 +414,23 @@ function settings_change_smtp_port() {
 	input_line "SMTP" "PROMS need as SMTP server to relay email notifications.\n\nPlease enter the PORT of the SMTP server you want to use for PROMS." "S_PROMS_SMTP_PORT" "$S_PROMS_SMTP_PORT"
 }
 
-function setup_db_change_db_hostname() {
+function setup_change_db_hostname() {
 	input_line "DB Admin hostname" "Please enter the HOSTNAME of the database on which PROMS will run." "S_SETUP_DB_HOSTNAME" "$S_SETUP_DB_HOSTNAME"
 }
 
-function setup_db_change_db_username() {
+function setup_change_db_username() {
 	input_line "DB Admin username" "Please enter the ADMIN USERNAME of the database on which PROMS will run." "S_SETUP_DB_USERNAME" "$S_SETUP_DB_USERNAME"
 }
 
-function setup_db_change_db_password() {
+function setup_change_db_password() {
 	input_line "DB Admin password" "Please enter the ADMIN PASSWORD of the database on which PROMS will run." "S_SETUP_DB_PASSWORD" "$S_SETUP_DB_PASSWORD"
 }
 
-function setup_db_change_web_username() {
+function setup_change_web_username() {
 	input_line "Webserver username" "Please enter the Username under which the webserver runs" "S_SETUP_WEB_USERNAME" "$S_SETUP_WEB_USERNAME"
 }
 
-function setup_db_change_web_groupname() {
+function setup_change_web_groupname() {
 	input_line "Webserver groupname" "Please enter the Groupname under which the webserver runs" "S_SETUP_WEB_GROUPNAME" "$S_SETUP_WEB_GROUPNAME"
 }
 
@@ -418,7 +438,7 @@ function setup_db_change_web_groupname() {
 # Script initialisation
 #----------------------------------------------------------------------------
 if [ -x /usr/bin/dialog ]; then
-	HAS_DIALOG=1
+	HAS_DIALOG=0
 else
 	HAS_DIALOG=0
 fi
