@@ -71,6 +71,7 @@ Proms: ChangeLog
   * CSS information now kept in a separate CSS file.
   * Bug and Todo notifications are now only sent to project maintainers.
     (Unless there is no maintainer, then it is sent to the project's owner)
+  * Rewritten setup.sh. It is now menu oriented instead of wizard oriented.
 
 [0.10] <%%EMAIL> ( Sun Feb 22 16:11:19 CET 2004 )
   * Fixed bug in the Todo List where 'Done' checkboxes were incorrectly 
