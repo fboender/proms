@@ -71,21 +71,24 @@ function output_text() {
 # Menus
 #----------------------------------------------------------------------------
 function actions_menu() {
+	TMP_FILE=`tempfile`
+
 	DONE_TMP=$DONE
 	DONE=0
 	while [ "$DONE" == "0" ]; do # Settings check 
 		while [ "$DONE" == "0" ]; do
 			if [ "$HAS_DIALOG" == "1" ]; then
-				ACTION=`dialog --ok-label Select --title "PROMS Setup" --menu "Please choose an action" 22 60 15 \
+				dialog --ok-label Select --title "PROMS Setup" --menu "Please choose an action" 22 60 15 \
 					1 "Read settings from previous installation" \
 					2 "View / Change settings" \
 					3 "Change database and webserver settings for setup" \
-					0 "Done (start installation)" 2>&1`
+					0 "Done (start installation)" 2>$TMP_FILE
 				if [ "$?" == "1" ]; then
 					exit
-					#DONE=1
-					#ACTION=""
+				else
+					ACTION=`cat $TMP_FILE`
 				fi
+
 			else
 				clear
 				echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
@@ -110,15 +113,19 @@ function actions_menu() {
 	done
 
 	DONE=$DONE_TMP
+
+	rm $TMP_FILE
 }
 
 function settings_change_menu() {
+	TMP_FILE=`tempfile`
+
 	DONE_TMP=$DONE
 	DONE=0
 
 	while [ "$DONE" == "0" ]; do
 		if [ "$HAS_DIALOG" == "1" ]; then
-			ACTION=`dialog --cancel-label Done --ok-label Change --title "Change settings" --menu "Please choose a setting to change" 22 60 16 \
+			dialog --cancel-label Done --ok-label Change --title "Change settings" --menu "Please choose a setting to change" 22 60 16 \
 				"Install location" "$S_SETUP_PATH" \
 				"DB hostname" "$S_PROMS_DB_HOSTNAME" \
 				"DB username" "$S_PROMS_DB_USERNAME" \
@@ -127,11 +134,15 @@ function settings_change_menu() {
 				"E-mail address" "$S_PROMS_LIST_EMAIL" \
 				"SMTP hostname" "$S_PROMS_SMTP_HOSTNAME" \
 				"SMTP port" "$S_PROMS_SMTP_PORT" \
-				2>&1`
+				2>$TMP_FILE
+
 			if [ "$?" == "1" ]; then
 				DONE=1
 				ACTION=""
+			else 
+				ACTION=`cat $TMP_FILE`
 			fi
+			
 		else
 			clear
 			echo -e "${1}\n---------------------------------------------------------------------------\n${2}\n"
@@ -163,21 +174,25 @@ function settings_change_menu() {
 	done
 
 	DONE=$DONE_TMP
+
+	rm $TMP_FILE
 }
 
 function setup_db_change_menu() {
+	TMP_FILE=`tempfile`
+
 	DONE_TMP=$DONE
 	DONE=0
 
 	while [ "$DONE" == "0" ]; do
 		if [ "$HAS_DIALOG" == "1" ]; then
-			ACTION=`dialog --cancel-label Done --ok-label Change --title "Change DB access" --menu "Please choose a setting to change" 22 60 16 \
+			dialog --cancel-label Done --ok-label Change --title "Change DB access" --menu "Please choose a setting to change" 22 60 16 \
 				"DB Admin hostname" "$S_SETUP_DB_HOSTNAME" \
 				"DB Admin username" "$S_SETUP_DB_USERNAME" \
 				"DB Admin password" "$S_SETUP_DB_PASSWORD"\
 				"Webserver Username" "$S_SETUP_WEB_USERNAME"\
 				"Webserver Groupname" "$S_SETUP_WEB_GROUPNAME"\
-				2>&1`
+				2>$TMP_FILE
 			if [ "$?" == "1" ]; then
 				mysql -u"$S_SETUP_DB_USERNAME" -p"$S_SETUP_DB_PASSWORD" -h "$S_SETUP_DB_HOSTNAME" -e"exit"
 				if [ "$?" == "1" ]; then
@@ -186,6 +201,8 @@ function setup_db_change_menu() {
 					output_text "Database test" "Testing the database connection...\n\nDatabase connection succesful."
 					DONE=1
 				fi
+			else
+				ACTION=`cat $TMP_FILE`
 			fi
 		else
 			clear
@@ -215,6 +232,8 @@ function setup_db_change_menu() {
 	done
 
 	DONE=$DONE_TMP
+
+	rm $TMP_FILE
 }
 
 #----------------------------------------------------------------------------
