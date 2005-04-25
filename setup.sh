@@ -543,14 +543,13 @@ mkdir -p $S_SETUP_PATH
 cp -R src/* $S_SETUP_PATH
 mv temp.settings.php $S_SETUP_PATH/settings.php
 
-if [ "$NONROOT" == "0" ]; then
+if [ "$HAS_ROOT" == "1" ]; then
 	echo "Setting rights";
 	chown $S_SETUP_WEB_USERNAME:$S_SETUP_WEB_GROUPNAME $S_SETUP_PATH -R
 	chmod 550 $S_SETUP_PATH 
 	chmod 640 $S_SETUP_PATH/*.php
 	chmod 550 $S_SETUP_PATH/images
 	chmod 750 $S_SETUP_PATH/files
-	
 fi
 
 #----------------------------------------------------------------------------
