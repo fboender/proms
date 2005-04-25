@@ -188,7 +188,7 @@ function CheckConfig() {
 		!defined('DB_DATABASE') ||
 		!defined('DB_PASSWORD') ||
 		!defined('DB_HOSTNAME') ||
-		!defined('SMTP_HOST') ||
+		!defined('SMTP_HOSTNAME') ||
 		!defined('SMTP_PORT')
 	) {
 		?>
