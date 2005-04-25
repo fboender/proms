@@ -231,8 +231,12 @@ function setup_db_change_menu() {
 					"Webserver Username" "$S_SETUP_WEB_USERNAME"\
 					"Webserver Groupname" "$S_SETUP_WEB_GROUPNAME"\
 					2>$TMP_FILE
-
-				ACTION=`cat $TMP_FILE`
+				if [ "$?" == "1" ]; then
+					DONE=1
+					ACTION=""
+				else 
+					ACTION=`cat $TMP_FILE`
+				fi
 			else
 				clear
 				echo -e "Change DB & Web Access\n---------------------------------------------------------------------------\n${2}\n"
