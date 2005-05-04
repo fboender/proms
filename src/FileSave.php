@@ -22,6 +22,13 @@ if (array_key_exists("file", $_FILES)) {
 	}
 }
 
+/* Get project shortname */
+$qry_shortname = "SELECT shortname FROM projects WHERE id='".$project_id."'";
+Debug($qry_shortname, __FILE__, __LINE__);
+$rslt_shortname = mysql_query($qry_shortname) or mysql_qry_error(mysql_error(), $qry_shortname, __FILE__, __LINE__);
+$row_shortname = mysql_fetch_row($rslt_shortname);
+$shortname = $row_shortname[0];
+
 if ($file_id != "") {
 	/* Update */
 	if (!IsAuthorized($project_id, 'AUTH_FILE_MODIFY')) {
@@ -47,12 +54,18 @@ if ($file_id != "") {
 	}
 
 	if ($file["name"] != "") {
-		if (file_exists("files/".$file["name"]) === true) {
+		/* Backwards compatibility: Check if correct files/shortname dir exists */
+		if (!file_exists("files/".$shortname)) {
+			umask(0);
+			mkdir("files/".$shortname, 0700);
+		}
+
+		if (file_exists("files/".$shortname."/".$file["name"]) === true) {
 			/* Already exists */
 			Error("A file with this filename already exists. Please change the filename (NOT the title) and try uploading it again.", "back");
 		}
 
-		if (!move_uploaded_file($file["tmp_name"], "files/".$file["name"])) {
+		if (!move_uploaded_file($file["tmp_name"], "files/".$shortname."/".$file["name"])) {
 			Error ("Can't move uploaded file. Presumably the rights are not set correct for the upload directory. Please contact the system administrator about this problem", "exit");
 		}
 	}

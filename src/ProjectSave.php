@@ -28,9 +28,19 @@ if ($project["progress"] == "") {
 }
 
 if ($project_id != "") {
+	/* Get the old shortname so we can move the old files/... directory */
+	$qry_shortname = "SELECT shortname FROM projects WHERE id='".$project_id."'";
+	
+	Debug($qry_shortname, __FILE__, __LINE__);
+	
+	$rslt_shortname = mysql_query($qry_shortname) or mysql_qry_error(mysql_error(), $qry_shortname, __FILE__, __LINE__);
+	$row_shortname = mysql_fetch_row($rslt_shortname);
+	
+	$shortname = $row_shortname[0];
+	
 	/* Update an existing record */
 	$qry_update = "UPDATE projects SET ";
-	$qry_update .= "shortname='"  .$project["shortname"]  ."', ";
+	$qry_update .= "shortname='"  .basename($project["shortname"])  ."', ";
 	$qry_update .= "fullname='"   .$project["fullname"]   ."', ";
 	$qry_update .= "owner='"      .$project["owner"]      ."', ";
 	$qry_update .= "description='".$project["description"]."', ";
@@ -46,10 +56,25 @@ if ($project_id != "") {
 	if (mysql_affected_rows() != 0) {
 		/** ERROR */
 	}
+
+	/* Create directory for the project in the files/ dir */
+	if (basename($project["shortname"]) != $shortname) {
+		if (!rename("files/".$shortname, "files/".basename($project["shortname"]))) {
+			Error ("Can't move the directory for keeping the project's files. Please contact the system administrator about this problem");
+		}
+	}
 } else {
+	/* Check if project already exists */
+	$qry_shortname = "SELECT shortname FROM projects WHERE shortname='".$project["shortname"]."'";
+	Debug($qry_shortname, __FILE__, __LINE__);
+	$rslt_shortname = mysql_query($qry_shortname) or mysql_qry_error(mysql_error(), $qry_shortname, __FILE__, __LINE__);
+	if (mysql_num_rows($rslt_shortname) > 0) {
+		Error("A project with this short name already exists. Please select another short name", "back");
+	}
+
 	/* Insert a new record */
 	$qry_insert = "INSERT INTO projects SET ";
-	$qry_insert .= "shortname='"  .$project["shortname"]  ."', ";
+	$qry_insert .= "shortname='"  .basename($project["shortname"])  ."', ";
 	$qry_insert .= "fullname='"   .$project["fullname"]   ."', ";
 	$qry_insert .= "owner='"      .$project["owner"]      ."', ";
 	$qry_insert .= "description='".$project["description"]."', ";
@@ -65,6 +90,12 @@ if ($project_id != "") {
 		/** ERROR */
 	}
 	$project_id = mysql_insert_id();
+
+	/* Create directory for the project in the files/ dir */
+	umask(0);
+	if (!mkdir("files/".basename($project["shortname"]), "700")) {
+		Error ("Can't create a directory for keeping the project's files in. Please contact the system administrator about this problem");
+	}
 }
 
 if ($wizard == 1) {

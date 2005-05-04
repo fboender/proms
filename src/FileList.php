@@ -14,6 +14,14 @@ $mime_types = array(
 
 $project_id = Import ("project_id" , "GP");
 
+/* Get project shortname */
+$qry_shortname = "SELECT shortname FROM projects WHERE id='".$project_id."'";
+Debug($qry_shortname, __FILE__, __LINE__);
+$rslt_shortname = mysql_query($qry_shortname) or mysql_qry_error(mysql_error(), $qry_shortname, __FILE__, __LINE__);
+$row_shortname = mysql_fetch_row($rslt_shortname);
+$shortname = $row_shortname[0];
+	
+
 $qry_file_cat = "SELECT * FROM file_categories WHERE project_id='".$project_id."'";
 $rslt_file_cat = mysql_query($qry_file_cat) or mysql_qry_error(mysql_error(), $qry_file_cat, __FILE__, __LINE__);
 if (mysql_num_rows($rslt_file_cat) > 0) {
@@ -45,18 +53,18 @@ if (mysql_num_rows($rslt_file_cat) > 0) {
 				<?
 				while ($row_files = mysql_fetch_assoc($rslt_files)) {
 					$row_files["type"] = $mime_types[substr($row_files["contenttype"], 0, strpos($row_files["contenttype"], '/'))];
-					$row_files["filesize"] = @filesize("files/".$row_files["filename"]);
+					$row_files["filesize"] = @filesize("files/".$shortname."/".$row_files["filename"]);
 					if ($row_files["title"] == "") {
 						$row_files["title"] = "[none]";
 					}
 
-					if (!file_exists("files/".$row_files["filename"])) {
+					if (!file_exists("files/".$shortname."/".$row_files["filename"])) {
 						?><tr valign="top" bgcolor="#FF9090"><?
 					} else {
 						?><tr valign="top" bgcolor="<?=RowColor()?>"><?
 					}
 						?>
-						<td><nobr><a href="files/<?=$row_files["filename"]?>" alt="Download" title="Download"><?=$row_files["title"]?></a></nobr></td>
+						<td><nobr><a href="files/<?=$shortname."/".$row_files["filename"]?>" alt="Download" title="Download"><?=$row_files["title"]?></a></nobr></td>
 						<td>
 							<nobr>
 							<?

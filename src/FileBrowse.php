@@ -15,6 +15,13 @@ $mime_types = array(
 $project_id = Import ("project_id" , "GP");
 $field_name = Import ("field_name" , "GP");
 
+/* Get project shortname */
+$qry_shortname = "SELECT shortname FROM projects WHERE id='".$project_id."'";
+Debug($qry_shortname, __FILE__, __LINE__);
+$rslt_shortname = mysql_query($qry_shortname) or mysql_qry_error(mysql_error(), $qry_shortname, __FILE__, __LINE__);
+$row_shortname = mysql_fetch_row($rslt_shortname);
+$shortname = $row_shortname[0];
+
 ?><div style='margin: 10px 10px 10px 10px;'><?
 
 $qry_file_cat = "SELECT * FROM file_categories WHERE project_id='".$project_id."'";
@@ -39,13 +46,13 @@ if (mysql_num_rows($rslt_file_cat) > 0) {
 				<?
 				while ($row_files = mysql_fetch_assoc($rslt_files)) {
 					$row_files["type"] = $mime_types[substr($row_files["contenttype"], 0, strpos($row_files["contenttype"], '/'))];
-					$row_files["filesize"] = filesize("files/".$row_files["filename"]);
+					$row_files["filesize"] = filesize("files/".$shortname."/".$row_files["filename"]);
 					if ($row_files["title"] == "") {
 						$row_files["title"] = "[none]";
 					}
 					?>
 					<tr valign="top">
-						<td><a href="javascript:top.opener.document.forms[0].elements['<?=$field_name?>'].value='<? echo(ThisBaseUrl()."files/".$row_files["filename"]);?>'; window.close();" alt="Select file" title="Select this file"><?=$row_files["title"]?></a></td>
+						<td><a href="javascript:top.opener.document.forms[0].elements['<?=$field_name?>'].value='<? echo(ThisBaseUrl()."files/".$shortname."/".$row_files["filename"]);?>'; window.close();" alt="Select file" title="Select this file"><?=$row_files["title"]?></a></td>
 						<td>
 							<?
 							if ($row_files["version"] != "") {
