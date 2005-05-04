@@ -45,7 +45,7 @@ if (isset($file_id)) {
 
 InputDropDown("Category", "file[category_id]", $file["category_id"], "file_categories", "WHERE project_id=".$project_id);
 if (!isset($file_id)) {
-	InputFile ("Upload", "file");
+	InputFile ("Upload", "file_up");
 }
 InputText("Title", "file[title]", @$file["title"]);
 InputText("Version<sup>1</sup>", "file[version]", @$file["version"]);

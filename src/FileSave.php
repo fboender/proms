@@ -7,17 +7,10 @@ For more information, see the COPYING file supplied with this program.
 $project_id = Import("project_id" , "GP");
 $file_id    = Import("file_id", "GP");
 $file       = Import("file", "P");
-$file["name"] = "";     /* Prevent spoofing */
-$file["tmp_name"] = "";
-$file["type"] = "";
-$file["size"] = "";
 
-if (array_key_exists("file", $_FILES)) {
-	$uploaded_file = Import("file", "F");
-	$temp = array_merge($file, $uploaded_file); /* Merge with POST info */
-	$file = $temp;
-} else {
-	if (!isset($file_id)) { /* If modifying then no need to upload */
+if (!isset($file_id)) {
+	$file_up    = Import("file_up", "F", array());
+	if (count($file_up) == 0) {
 		Error("You must upload a file", "back");
 	}
 }
@@ -41,7 +34,7 @@ if ($file_id != "") {
 	$qry_file .= "description= '".$file["description"]."', ";
 	$qry_file .= "adddate= '"    .time()              ."', ";
 	$qry_file .= "category_id= '".$file["category_id"]."', ";
-	$qry_file .= "contenttype= '".$file["type"]       ."', ";
+	$qry_file .= "contenttype= '".$file_up["type"]       ."', ";
 	$qry_file .= "project_id= '" .$project_id         ."'  ";
 	$qry_file .= "WHERE id='"    .$file_id            ."'  ";
 
@@ -53,31 +46,31 @@ if ($file_id != "") {
 		Error ("Access denied. You're not authorized to modify files", "back");
 	}
 
-	if ($file["name"] != "") {
+	if ($file_up["name"] != "") {
 		/* Backwards compatibility: Check if correct files/shortname dir exists */
 		if (!file_exists("files/".$shortname)) {
 			umask(0);
 			mkdir("files/".$shortname, 0700);
 		}
 
-		if (file_exists("files/".$shortname."/".$file["name"]) === true) {
+		if (file_exists("files/".$shortname."/".$file_up["name"]) === true) {
 			/* Already exists */
 			Error("A file with this filename already exists. Please change the filename (NOT the title) and try uploading it again.", "back");
 		}
 
-		if (!move_uploaded_file($file["tmp_name"], "files/".$shortname."/".$file["name"])) {
+		if (!move_uploaded_file($file_up["tmp_name"], "files/".$shortname."/".$file_up["name"])) {
 			Error ("Can't move uploaded file. Presumably the rights are not set correct for the upload directory. Please contact the system administrator about this problem", "exit");
 		}
 	}
 
 	$qry_file = "INSERT INTO files SET ";
-	$qry_file .= "filename='"   .$file["name"]       ."', ";
+	$qry_file .= "filename='"   .$file_up["name"]       ."', ";
 	$qry_file .= "title='"      .$file["title"]      ."', ";
 	$qry_file .= "version='"    .$file["version"]    ."', ";
 	$qry_file .= "description='".$file["description"]."', ";
 	$qry_file .= "adddate='"    .time()              ."', ";
 	$qry_file .= "category_id='".$file["category_id"]."', ";
-	$qry_file .= "contenttype='".$file["type"]       ."', ";
+	$qry_file .= "contenttype='".$file_up["type"]       ."', ";
 	$qry_file .= "project_id='" .$project_id         ."'  ";
 
 	Debug ($qry_file, __FILE__, __LINE__);
