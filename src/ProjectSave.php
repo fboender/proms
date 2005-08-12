@@ -28,6 +28,8 @@ if ($project["progress"] == "") {
 }
 
 if ($project_id != "") {
+	/* Update an existing project */
+	
 	/* Get the old shortname so we can move the old files/... directory */
 	$qry_shortname = "SELECT shortname FROM projects WHERE id='".$project_id."'";
 	
@@ -64,6 +66,8 @@ if ($project_id != "") {
 		}
 	}
 } else {
+	/* Create a new project */
+
 	/* Check if project already exists */
 	$qry_shortname = "SELECT shortname FROM projects WHERE shortname='".$project["shortname"]."'";
 	Debug($qry_shortname, __FILE__, __LINE__);
@@ -91,10 +95,15 @@ if ($project_id != "") {
 	}
 	$project_id = mysql_insert_id();
 
-	/* Create directory for the project in the files/ dir */
-	umask(0);
-	if (!mkdir("files/".basename($project["shortname"]), "700")) {
+	/* Create directory for the project in the files/ dir. We can't use umask
+	 * to directly set the rights because of problems with threaded servers.
+	 * This means the directory _might_ be vulnerable for a _very_ short time
+	 * between creation and chmodding. Nothing to worry about though. */
+	if (!mkdir("files/".basename($project["shortname"]))) {
 		Error ("Can't create a directory for keeping the project's files in. Please contact the system administrator about this problem");
+	}
+	if (!chmod("files/".basename($project["shortname"]), 0700)) {
+		Error ("Couldn't set the permissions on the directory for keeping the project's files. Please contact the system administrator about this problem");
 	}
 }
 
