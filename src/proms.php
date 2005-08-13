@@ -84,6 +84,7 @@ switch ($action) {
 	
 	case "TodoAdd"            : include("TodoAdd.php");            break;
 	case "TodoMod"            : include("TodoMod.php");            break;
+	case "TodoDel"            : include("TodoDel.php");            break;
 	case "TodoSave"           : include("TodoSave.php");           break;
 	case "TodoList"           : include("TodoList.php");           break;
 	case "TodoOverview"       : include("TodoOverview.php");       break;

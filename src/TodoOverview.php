@@ -56,6 +56,7 @@ $todo_statuses = ReadLookup ("todo_statuses", "name");
 	if (IsAuthorized($project_id, 'AUTH_TODO_MODIFY')) {
 		?>
 		<a class="action" href="<?=$PHP_SELF?>?action=TodoMod&project_id=<?=$project_id?>&todo_id=<?=$row_todo["id"]?>">Modify todo</a> &nbsp;
+		<a class="action" href="<?=$PHP_SELF?>?action=TodoDel&project_id=<?=$project_id?>&todo[<?=$row_todo["id"]?>]=x">Delete</a> &nbsp;
 		<a class="action" href="<?=$PHP_SELF?>?action=TodoDone&project_id=<?=$project_id?>&todo[<?=$row_todo["id"]?>]=x">Done</a> &nbsp;
 		<?
 	}
