@@ -61,5 +61,6 @@ InputSubmit("Save");
 <div class="actionseparator">&nbsp;</div>
 &nbsp;
 <a class="nav" href="<?=$PHP_SELF?>?action=FileList&project_id=<?=$project_id?>">&lt; Files</a> &nbsp;
+<a class="action" href="<?=$PHP_SELF?>?action=FileDel&project_id=<?=$project_id?>&file_id=<?=$file_id?>">Delete</a> &nbsp;
 <?
 
