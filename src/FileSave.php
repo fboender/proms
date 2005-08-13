@@ -47,7 +47,9 @@ if ($file_id != "") {
 	}
 
 	if ($file_up["name"] != "") {
-		/* Backwards compatibility: Check if correct files/shortname dir exists */
+		/* Before PROMS v0.11, creating a new project did not create a
+		 * directory in files/ (because files weren't yet supported). Here, we
+		 * check and possibly create it if needed. */
 		if (!file_exists("files/".$shortname)) {
 			umask(0);
 			mkdir("files/".$shortname, 0700);
