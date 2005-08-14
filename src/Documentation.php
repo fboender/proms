@@ -460,7 +460,7 @@ function TodoOverview() {
 	<p>At the top of the page is some general information, namely the <b>todo #</b>, its title and the <b>user by</b> which it was first reported.</p>
 	<p>Next is the current status of the todo. The <b>status</b> shows you if the todo is either pending or done. The <b>priority</b> is to determine how important the todo is. <b>Part</b> tells you to which part of the project this todo applies.</p>
 	<p>The <b>last modification date</b> is also shown. This way you can see when the todo's information last changed. After that is the <b>description</b>.</p>
-	<p>At the bottom are the usual actions. <a class="action">Discuss this todo</a> will take you to the forum where you can discuss the todo with other users. If you want to add another todo to the list, you can use the <a class="action">Add todo</a> action button. The current todo can be modified by using the <a class="action">Modify todo</a> button.</p>
+	<p>At the bottom are the usual actions. <a class="action">Discuss this todo</a> will take you to the forum where you can discuss the todo with other users. If you want to add another todo to the list, you can use the <a class="action">Add todo</a> action button. The current todo can be modified by using the <a class="action">Modify todo</a> button. The <a class="action">Delete</a> button deletes a todo.</p>
 	<?
 }
 
