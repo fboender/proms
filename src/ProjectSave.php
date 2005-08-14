@@ -49,7 +49,8 @@ if ($project_id != "") {
 	$qry_update .= "desc_short='" .$project["desc_short"] ."', ";
 	$qry_update .= "progress='"   .$project["progress"]   ."', ";
 	$qry_update .= "homepage='"   .$project["homepage"]   ."', ";
-	$qry_update .= "license='"    .$project["license"]    ."'  ";
+	$qry_update .= "license='"    .$project["license"]    ."', ";
+	$qry_update .= "private='"    .$project["private"]    ."'  ";
 	$qry_update .= "WHERE id='"   .$project_id            ."'  ";
 	
 	Debug($qry_update, __FILE__, __LINE__);
@@ -85,7 +86,8 @@ if ($project_id != "") {
 	$qry_insert .= "desc_short='" .$project["desc_short"] ."', ";
 	$qry_insert .= "progress='"   .$project["progress"]   ."', ";
 	$qry_insert .= "homepage='"   .$project["homepage"]   ."', ";
-	$qry_insert .= "license='"    .$project["license"]    ."'  ";
+	$qry_insert .= "license='"    .$project["license"]    ."', ";
+	$qry_insert .= "private='"    .$project["private"]    ."'  ";
 	
 	Debug ($qry_insert, __FILE__, __LINE__);
 

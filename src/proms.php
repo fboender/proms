@@ -16,7 +16,15 @@ InitSession();
 
 $action = Import ("action", "GP", "ProjectList");
 $user_id = Import ("user_id", "S");
+$project_id = Import ("project_id", "GP");
 $PHP_SELF = $_SERVER["PHP_SELF"];
+
+/* If the user tries to do anything with a private project, give an error */
+if (isset($project_id) && $project_id != "") {
+	if (IsPrivate($project_id) && !IsProjectMember($project_id)) {
+		Error ("Access denied. You may not view this project.", "exit");
+	}
+}
 
 HeaderHtml ($action, $module_title);
 HeaderPage ($action);

@@ -51,6 +51,7 @@ InputText ("Short description", "project[desc_short]", @$project["desc_short"]);
 InputText ("Progress", "project[progress]", @$project["progress"]);
 InputText ("Homepage", "project[homepage]", @$project["homepage"]);
 InputDropDown ("License", "project[license]", @$project["license"], "licenses");
+InputCheckbox ("Private", "project[private]", @$project["private"]);
 InputSubmit ("Save");
 ?>
 </form>

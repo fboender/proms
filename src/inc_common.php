@@ -670,6 +670,22 @@ function IsAuthorized ($project_id, $rights) {
 	return (false);
 }
 
+function IsPrivate($project_id) {
+
+	$qry_priv = "SELECT private FROM projects WHERE id='".$project_id."'";
+	$rslt_priv = mysql_query($qry_priv) or mysql_qry_error(mysql_error(), $qry_priv, __FILE__, __LINE__);
+	if (mysql_num_rows($rslt_priv) > 0) {
+		$row_priv = mysql_fetch_assoc($rslt_priv);
+		if ($row_priv["private"] == '1') {
+			return(true);
+		}
+	} else {
+		return(true);
+	}
+
+	return(false);
+}
+
 function EmailObfuscate ($emailaddress) {
 	global $emailobfuscate_search, $emailobfuscate_replace;
 
