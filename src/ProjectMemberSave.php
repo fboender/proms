@@ -17,10 +17,12 @@ if (!IsAuthorized($project_id, AUTH_PROJECTMEMBERS_MODIFY)) {
 
 /* Calculate int value for all selected rights */
 $rights_value = 0;
-foreach ($projectmember["rights"] as $right) {
-	$rights_value += $right;
+if (count($projectmember["rights"]) > 0) {
+	foreach ($projectmember["rights"] as $right) {
+		$rights_value += $right;
+	}
+	$projectmember["rights"] = $rights_value;
 }
-$projectmember["rights"] = $rights_value;
 
 if ($projectmember["id"] != "") {
 	/* Update current member */
