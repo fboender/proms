@@ -159,7 +159,7 @@ if ($bug_id != "") {
 		$notify["headers"].$notify["bcc"]);
 
 	if (!($sent === TRUE)) {
-		Error("Email notification about this new bug couldn't be sent. Please alert the administrator.");
+		Error("Email notification about this new bug couldn't be sent. Please alert the administrator.", "exit");
 	}
 }
 

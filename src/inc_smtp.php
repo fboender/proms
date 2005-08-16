@@ -89,7 +89,7 @@ function smtpmail($mail_to, $subject, $message, $headers = '') {
 
 	// Ok we have error checked as much as we can to this point let's get on
 	// it already.
-	if( !$socket = fsockopen(SMTP_HOST, 25, $errno, $errstr, 20) ) {
+	if( !$socket = fsockopen(SMTP_HOSTNAME, SMTP_PORT, $errno, $errstr, 20) ) {
 		return("Could not connect to smtp host : $errno : $errstr");
 	}
 
@@ -102,8 +102,13 @@ function smtpmail($mail_to, $subject, $message, $headers = '') {
 	// Do we want to use AUTH?, send RFC2554 EHLO, else send RFC821 HELO
 	// This improved as provided by SirSir to accomodate
 	//if(!empty(constant(SMTP_USERNAME)) && !empty(constant(SMTP_PASSWORD)) ) { 
+	if( defined(SMTP_USERNAME) ) {
+		print ("defined");
+	} else {
+		print ("undefined");
+	}
 	if( defined(SMTP_USERNAME) && defined(SMTP_PASSWORD) ) { 
-		fputs($socket, "EHLO " . SMTP_HOST . "\r\n");
+		fputs($socket, "EHLO " . SMTP_HOSTNAME . "\r\n");
 		$error = server_parse($socket, "250", __LINE__);
 		if (!empty($error)) {
 			return($error);
@@ -127,7 +132,7 @@ function smtpmail($mail_to, $subject, $message, $headers = '') {
 			return($error);
 		}
 	} else {
-		fputs($socket, "HELO " . SMTP_HOST . "\r\n");
+		fputs($socket, "HELO " . SMTP_HOSTNAME . "\r\n");
 		$error = server_parse($socket, "250", __LINE__);
 		if (!empty($error)) {
 			return($error);
