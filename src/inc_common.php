@@ -119,6 +119,7 @@ $module_title = array(
 
 );
 
+/* $tabs is used to determine which parts of proms fall under which tabs */
 $tabs = array(
 	"Project" => array(
 		"ProjectOverview"),
@@ -158,7 +159,7 @@ $tabs = array(
 		"ForumTopicMod",
 		"ForumTopicDel",
 		"ForumTopicSave"),
-	"Manage" => array(
+	"Manage" => array( /* If you change this, also change HeaderTab() function */
 		"ProjectManage",
 		"ProjectPartList",
 		"ProjectPartAdd",
@@ -178,7 +179,7 @@ $tab_links = array(
 	"Bugs" => "BugList",
 	"Todo's" => "TodoList",
 	"Discussions" => "ForumView",
-	"Manage" => "ProjectManage",
+	"Manage" => "ProjectManage", /* If you change this, also change HeaderTab() function */
 );
 
 function CheckConfig() {
@@ -727,6 +728,11 @@ function HeaderTab ($action) {
 			<div class="tab">
 				<?
 				foreach ($tabs as $tab_title => $tab_action) {
+					/* Do not show the 'Manage' tab if the user is not logged in */
+					if ($tab_title == "Manage" && !IsLoggedIn()) {
+						continue;
+					}
+
 					$url = $PHP_SELF."?action=".$tab_links[$tab_title]."&project_id=".$project_id;
 					if (in_array($action, $tab_action)) {
 						?><span class="tab_active"><a href="<?=$url?>"><?=$tab_title?></a></span><?
