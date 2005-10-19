@@ -3,6 +3,17 @@ Proms: ChangeLog
 
 [%%VERSION] <%%EMAIL> ( %%DATE )
 
+  * Fixed a bug in the mail sending routine that caused a failure in the mailing of notifications.
+  * Fixed a bug in the permissions while creating the directories that hold a project's files.
+
+  * A notice was added to the README documenting the fact that PHP's short_open_tag setting must be on.
+  * The 'Manage' tab is no longer shown if the user is not logged in.
+  * Projects can now be flagged as 'private' so that they will only show up for project members and the project owner.
+  * Added the ability to delete todo's.
+  * Added the ability to delete files.
+
+[0.11] <%%EMAIL> ( %%DATE )
+
   Bug^H^H^Hfeature fixes
 
   * Various SQL queries where vulnerable to SQL injections. Fixed. (See also
