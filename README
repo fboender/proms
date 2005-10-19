@@ -127,6 +127,9 @@ Table of contents
 		installation of PHP. If you do not have this enabled, your installation
 		of PROMS will be VULNERABLE to SQL INJECTIONS!
 
+		PROMS requires that the 'short_open_tag' be set to 'on' in the php.ini
+		configuration.
+
 		If you are running a different web server than Apache, please use your
 		web server's configuration to prevent people from running scripts in 
 		the files/ directory! If you do not, people might be able to upload PHP
@@ -177,6 +180,9 @@ Table of contents
 		Please make sure you have have Magic Quotes enabled in your
 		installation of PHP. If you do not have this enabled, your installation
 		of PROMS will be VULNERABLE to SQL INJECTIONS!
+
+		PROMS requires that the 'short_open_tag' be set to 'on' in the php.ini
+		configuration.
 
 		If you are running a different web server than Apache, please use your
 		web server's configuration to prevent people from running scripts in 
