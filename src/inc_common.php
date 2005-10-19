@@ -971,7 +971,7 @@ function ListNavigation ($base_url, $top, $results_per_page, $results_total) {
 		if ( ($top - $results_per_page) <= 0) {
 			$nav["<"]["top_new"] = 0;
 		} else {
-			$nav["<"]["top_new"] = $top - $results_par_page;
+			$nav["<"]["top_new"] = $top - $results_per_page;
 		}
 	} else {
 		$nav["<"]["state"] = "disabled";
