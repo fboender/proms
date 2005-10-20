@@ -103,7 +103,7 @@ function actions_menu() {
 					1 "Read settings from previous installation" \
 					2 "View / Change settings" \
 					3 "Change database and webserver settings for setup" \
-					0 "Done (start installation)" 2>$TMP_FILE
+					0 "Done (start installation/upgrade)" 2>$TMP_FILE
 				if [ "$?" == "1" ]; then
 					rm $TMP_FILE
 					exit
