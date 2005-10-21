@@ -361,6 +361,12 @@ function settings_get_upgrade() {
 			S_PROMS_SMTP_HOSTNAME=`cat $S_PREV_PATH/settings.php | grep SMTP_HOST | grep -v REF| cut -d"\"" -f4`
 			S_PROMS_SMTP_PORT=`cat $S_PREV_PATH/settings.php | grep SMTP_PORT | grep -v REF| cut -d"\"" -f4`
 
+			# Due to a bug in version 0.11, the version number was removed from settings.php
+			# This is a hack to fix that problem.
+			if [ -z "$S_PREV_VERSION" ]; then
+				S_PREV_VERSION="0.11"
+			fi
+			
 			output_text "Previous settings" "The settings from the previous installation have been read. Please review these settings to see if any need to be changed.";
 			DONE="1"
 		elif [ -e "$INSTALL_PATH/inc_common.php" ]; then
@@ -383,6 +389,7 @@ function settings_get_upgrade() {
 }
 
 function settings_get_defaults() {
+	VERSION="%%VERSION"
 	S_PREV_VERSION=""
 	S_PREV_PATH=""
 
