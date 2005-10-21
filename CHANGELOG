@@ -1,7 +1,7 @@
 Proms: ChangeLog
 ------------------------------------------------------------------------------
 
-[0.12.1] <%%EMAIL> ( %%DATE )
+[%%VERSION] <%%EMAIL> ( %%DATE )
 
   * Fixed a bug in the setup script which caused upgrades to fail.
 
