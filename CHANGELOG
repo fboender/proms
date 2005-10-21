@@ -1,7 +1,11 @@
 Proms: ChangeLog
 ------------------------------------------------------------------------------
 
-[%%VERSION] <%%EMAIL> ( %%DATE )
+[0.12.1] <%%EMAIL> ( %%DATE )
+
+  * Fixed a bug in the setup script which caused upgrades to fail.
+
+[0.12] <%%EMAIL> ( %%DATE )
 
   * Fixed a bug in the mail sending routine that caused a failure in the mailing of notifications.
   * Fixed a bug in the permissions while creating the directories that hold a project's files.
