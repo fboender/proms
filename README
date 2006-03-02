@@ -152,7 +152,10 @@ Table of contents
        IDENTIFIED BY '[password]';
 	4. Change the defines in the src/settings.php file to match with the 
 	   database and user names. Also change the other settings to your liking.
-	   Remove the REF00# from each of the defines.
+	   Remove the 'REF00#_' from each of the defines so that the lines look 
+	   like this: : define ("DB_DATABASE", "proms");
+
+	   ! Make sure you set the PROMS_VERSION variable to the correct version.
 	5. Copy all .php files in the src/ directory to your webserver directory.
 	6. Point your browser to the proms.php page.
 	7. Register a new account for yourself. The first account registered will
