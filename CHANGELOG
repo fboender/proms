@@ -1,11 +1,11 @@
 Proms: ChangeLog
 ------------------------------------------------------------------------------
 
-[%%VERSION] <%%EMAIL> ( %%DATE )
+[0.12.1] <f.boender AT electricmonk.nl> ( Fri Oct 21 11:21:00 CET 2005 )
 
   * Fixed a bug in the setup script which caused upgrades to fail.
 
-[0.12] <%%EMAIL> ( %%DATE )
+[0.12] <f.boender AT electricmonk.nl> ( Fri Oct 21 11:08:00 CET 2005 )
 
   * Fixed a bug in the mail sending routine that caused a failure in the mailing of notifications.
   * Fixed a bug in the permissions while creating the directories that hold a project's files.
@@ -16,7 +16,7 @@ Proms: ChangeLog
   * Added the ability to delete todo's.
   * Added the ability to delete files.
 
-[0.11] <%%EMAIL> ( %%DATE )
+[0.11] <f.boender AT electricmonk.nl> ( Thu May 5 08:19:00 CET 2005 )
 
   Bug^H^H^Hfeature fixes
 
@@ -88,7 +88,7 @@ Proms: ChangeLog
     (Unless there is no maintainer, then it is sent to the project's owner)
   * Rewritten setup.sh. It is now menu oriented instead of wizard oriented.
 
-[0.10] <%%EMAIL> ( Sun Feb 22 16:11:19 CET 2004 )
+[0.10] <f.boender AT electricmonk.nl> ( Sun Feb 22 16:11:19 CET 2004 )
   * Fixed bug in the Todo List where 'Done' checkboxes were incorrectly 
     disabled.
   * Fixed a bug in the bugs discussion forum where the wrong bug thread would 
@@ -126,7 +126,7 @@ Proms: ChangeLog
   * The user who reported a todo was listed in the todo list. Could also be 
     filtered on. This was useless, so it has been removed.
 
-[0.9] <%%EMAIL> ( Tue Jan 20 13:12:09 CET 2004 )
+[0.9] <f.boender AT electricmonk.nl> ( Tue Jan 20 13:12:09 CET 2004 )
   * Global settings are now placed in 'settings.php'.
   * Version is now shown in the title of the pages.
   * Authorized users may now set the status of bugs during reporting.
@@ -153,7 +153,7 @@ Proms: ChangeLog
   * Temporary fix for register_globals=off compatibility.
   * Bug list and Todo list now show sort arrows.
   
-[0.8] <%%EMAIL> ( Thu Sep 11 20:50:32 CEST 2003 )
+[0.8] <f.boender AT electricmonk.nl> ( Thu Sep 11 20:50:32 CEST 2003 )
   * Some user interface improvements.
   * Module titles moved from proms.php to inc_common and put into assoc array.
   * The first non-hidden form field is now automatically focussed.
@@ -169,7 +169,7 @@ Proms: ChangeLog
   * Todo list: Search and sort states are now remembered during sessions.
   * Todo list: mysql error when searching for todo number fixed.
 
-[0.7] <%%EMAIL> ( Thu Aug 28 20:11:06 CEST 2003 )
+[0.7] <f.boender AT electricmonk.nl> ( Thu Aug 28 20:11:06 CEST 2003 )
   * Project overview: Corrected CHANGELOG url.
   * Account add/mod: Passwords now must be entered twice to avoid errors.
   * Project Releases: codenames are now omitted if not present.
@@ -185,7 +185,7 @@ Proms: ChangeLog
   * Bug Tracking: Changes in bugs are now reported in the bug's forum thread.
   * Security: Action links are now only shown if the user is authorized to perform the actions.
 
-[v0.6.1] <%%EMAIL> ( Sat Jun  7 02:20:38 CEST 2003 )
+[v0.6.1] <f.boender AT electricmonk.nl> ( Sat Jun  7 02:20:38 CEST 2003 )
   * Release overview/Project Overview: Unavailable packages are now listed as N/A, among others.
   * htmlentities added to most displays of text.
   * All known bugs are now fixed. Come report some more.
@@ -205,7 +205,7 @@ Proms: ChangeLog
   * Bug Add/Mod version now is a dropdown.
   * Releases Modify now works correctly.
 
-[0.6] <%%EMAIL> ( Sun Aug 10 16:00:17 CEST 2003 )
+[0.6] <f.boender AT electricmonk.nl> ( Sun Aug 10 16:00:17 CEST 2003 )
   * Fixed bugs in Bug Discussions, New account creation, Forum Topic create.
   * Fixed multiple navigation links.
   * Bug report form html is now better layed out.
@@ -233,7 +233,7 @@ Proms: ChangeLog
   * It is now possible to mark an account as private so others can only see fullname.
   * Account overview now shows the projects owned by the user.
 
-[0.5] <%%EMAIL> ( Sun Jul 13 16:09:58 CEST 2003 )
+[0.5] <f.boender AT electricmonk.nl> ( Sun Jul 13 16:09:58 CEST 2003 )
   * BugAdd: Added back navigation.
   * Added instructions to New Project Wizard.
   * ForumTopicsList: Fixed naming convention error in rslt_topics.
@@ -247,26 +247,26 @@ Proms: ChangeLog
   * Changed Error() routine to include module name.
   * Partly rewrote AccountMod to better suit the rest of new Account actions.
 
-[0.4] <%%EMAIL> ( Mon Jun  9 19:48:02 CEST 2003 )
+[0.4] <f.boender AT electricmonk.nl> ( Mon Jun  9 19:48:02 CEST 2003 )
   * Added bug discussion feature.
   * Added post date and last post date features to discussion forum.
   * Improved navigation.
   * 'Project Add' wizard which takes you through all the steps needed to create new project.
   * Added Forum Topic editor.
 
-[0.3] <%%EMAIL> ( Thu May 29 23:35:36 CEST 2003 )
+[0.3] <f.boender AT electricmonk.nl> ( Thu May 29 23:35:36 CEST 2003 )
   * Added project parts editor.
   * Major navigation enhancements throughout the program.
   * Beautifications.
   * Started Forum part.
 
-[0.2] <%%EMAIL> ( Wed May 28 00:05:30 CEST 2003 )
+[0.2] <f.boender AT electricmonk.nl> ( Wed May 28 00:05:30 CEST 2003 )
   * Added search/filter capabilities to buglist.
   * Added 'add' and 'last' modified timestamps to bugs.
   * New authentication method.
   * Code cleanup (according to conceptual design).
   * Massive changes to the bug reporting section (too much to mention seperately).
 
-[0.1] <%%EMAIL> ( Fri May 16 20:06:41 CEST 2003 )
+[0.1] <f.boender AT electricmonk.nl> ( Fri May 16 20:06:41 CEST 2003 )
   * Initial release.
 

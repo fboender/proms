@@ -1,12 +1,11 @@
 PROMS
 
 	Version     : %%VERSION
-	Copyright   : Copyright 2003-2005 by Ferry Boender <%%EMAIL>.
+	Copyright   : Copyright 2003-2005 by Ferry Boender <f.boender AT electricmonk.nl>.
 
-	Authors     : Ferry Boender <%%EMAIL> 
+	Authors     : Ferry Boender <f.boender AT electricmonk.nl> 
 	              Michiel van Baak <michiel (at) vanbaak (dot) info>
 	License     : General Public License
-	homepage    : %%HOMEPAGE
 
 
 	PROMS is a webbased project management system whose primary goal is to
@@ -236,7 +235,7 @@ Table of contents
 	If you've got feedback about PROMS, and wish to share it, you can do so
 	in a couple of ways.
 
-	1. Send email to <%%EMAIL>
+	1. Send email to <f.boender AT electricmonk.nl>
 	2. Use a 'beta' version of PROMS to give me your feedback. You can find it
 	   at http://projects.electricmonk.nl/index.php?action=ProjectOverview&project_id=2
 	
@@ -384,12 +383,15 @@ Table of contents
 
 	PROMS created by:
 
-		Ferry Boender <%%EMAIL>
-		Homepage: %%MYHOMEPAGE 
+		Ferry Boender <f.boender AT electricmonk.nl>
+		Homepage: http://www.electricmonk.nl
 
 	(for address information, please email me or visit my webpage.)
 
+    With help from:
 
+        Michiel van Baak
+        Homepage: michiel.vanbaak.info
 
 
 
