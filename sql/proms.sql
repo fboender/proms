@@ -215,6 +215,7 @@ CREATE TABLE `projects` (
   `homepage` varchar(255) NOT NULL default '',
   `license` tinyint(4) NOT NULL default '0',
   `desc_short` varchar(255) default NULL,
+  `private` tinyint(1) default '0',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
